@@ -1,1 +1,1 @@
-# 1DV610_lab-2
+# 1DV610 Laboration 2
