@@ -2,6 +2,7 @@ export default class BarChart {
   #canvas
   #context
   #canvasPadding = 20
+  #borderPadding = 5
 
   constructor(canvas) {
     this.#canvas = canvas;
@@ -16,24 +17,13 @@ export default class BarChart {
     // default height of canvas is 150, change it to 300
     this.#canvas.height = 300;
 
-    this.#drawQuaterCircle(5, 5, 5, '#346823', 2);
-    this.#drawQuaterCircle(595, 5, 5, '#346823', 1);
-    this.#drawQuaterCircle(595, 295, 5, '#346823', 4);
-    this.#drawQuaterCircle(5, 295, 5, '#346823', 3);
-
-    // draw test line connecting the dots
-    this.#drawLine(5, 5, 595, 5, 10);
-    this.#drawLine(5, 5, 5, 295, 10);
-    this.#drawLine(5, 295, 595, 295, 10);
-    this.#drawLine(595, 5, 595, 295, 10);
-
-    this.#drawQuaterCircle();
-
     // draw y axis
     this.#drawLine(50, 50, 50, this.#canvas.height - 30, 2);
 
     //draw x axis
     this.#drawLine(50, this.#canvas.height - 30, this.#canvas.width - 40, this.#canvas.height - 30, 2);
+
+    this.#drawBorder(6, '#AAAAAA')
 
     // draw 4 bars
     this.#drawRectangle(100, this.#canvas.height - 100, 50, 70);
@@ -42,7 +32,7 @@ export default class BarChart {
     this.#drawRectangle(400, this.#canvas.height - 200, 50, 170);
 
     // draw some rectangle for the border of chart
-    this.#drawOutLinedRectangle(this.#canvasPadding, this.#canvasPadding, this.#canvas.width - this.#canvasPadding * 2, this.#canvas.height - this.#canvasPadding * 2);
+    // this.#drawOutLinedRectangle(this.#canvasPadding, this.#canvasPadding, this.#canvas.width - this.#canvasPadding * 2, this.#canvas.height - this.#canvasPadding * 2);
   }
 
   #drawDot(x, y, radius) {
@@ -52,14 +42,7 @@ export default class BarChart {
     this.#context.fill();
   }
 
-  #drawLine(startX, startY, endX, endY, lineWidth) {
-    this.#context.beginPath();
-    this.#context.moveTo(startX, startY);
-    this.#context.lineTo(endX, endY);
-    this.#context.strokeStyle = "#346823";
-    this.#context.lineWidth = lineWidth;
-    this.#context.stroke();
-  }
+
 
   #drawRectangle(posX, posY, width, height) {
     this.#context.fillStyle = this.#getRandomColor();
@@ -81,15 +64,39 @@ export default class BarChart {
     return color;
   }
 
+  #drawBorder(lineWidth, color) {
+    // draw corners
+    const margin = lineWidth/2;
+    this.#drawQuaterCircle(margin, margin, lineWidth/2, color, 2);
+    this.#drawQuaterCircle(this.#canvas.width-margin, margin, lineWidth/2, color, 1);
+    this.#drawQuaterCircle(this.#canvas.width-margin, this.#canvas.height-margin, lineWidth/2, color, 4);
+    this.#drawQuaterCircle(margin, this.#canvas.height-margin, lineWidth/2, color, 3);
+
+    // draw line connecting the corneres
+    this.#drawLine(margin, margin, this.#canvas.width-margin, margin, lineWidth, color);
+    this.#drawLine(margin, margin, margin, this.#canvas.height-margin, lineWidth, color);
+    this.#drawLine(margin, this.#canvas.height-margin, this.#canvas.width-margin, this.#canvas.height-margin, lineWidth, color);
+    this.#drawLine(this.#canvas.width-margin, margin, this.#canvas.width-margin, this.#canvas.height-margin, lineWidth, color);
+  }
+
+  #drawLine(startX, startY, endX, endY, lineWidth, color) {
+    this.#context.beginPath();
+    this.#context.moveTo(startX, startY);
+    this.#context.lineTo(endX, endY);
+    this.#context.strokeStyle = color;
+    this.#context.lineWidth = lineWidth;
+    this.#context.stroke();
+  }
+
   /**
    * Draws a quarter circle for given quadrant. 
    * 1st quadrant means the top-right part of circle, the 2nd quadrant is the top-left part of the circle, 3rd quadrant is the bottom left part of the circle, and 4th quadrant is the bottom right part of the circle.
    *
-   * @param {number} quadrant - The quadrant for which to draw the quarter circle (1, 2, 3 , or 4).
    * @param {number} xPos - The x-coordinat for the center of quarter circle.
    * @param {number} yPos - The y-coordint for the center of quarter circle.
    * @param {number} radius - The radius of the quarter circle.
    * @param {string} color - The fill color for the quarter circle.
+   * @param {number} quadrant - The quadrant for which to draw the quarter circle (1, 2, 3 , or 4).
    */
   #drawQuaterCircle(xPos, yPos, radius, color, quadrant) {
     this.#context.beginPath();
