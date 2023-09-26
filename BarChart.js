@@ -4,9 +4,11 @@ export default class BarChart {
   #canvasPadding = 20
   #borderPadding = 5
 
-  constructor(canvas) {
-    this.#canvas = canvas;
-    this.#context = canvas.getContext('2d');
+  constructor(id) {
+    this.#canvas = document.getElementById(id);
+    this.#context = this.#canvas.getContext('2d');
+
+    const data = [];
 
     console.log(this.#canvas.width); // default: 300
     console.log(this.#canvas.height); // default: 150
@@ -17,19 +19,24 @@ export default class BarChart {
     // default height of canvas is 150, change it to 300
     this.#canvas.height = 300;
 
-    // draw y axis
-    this.#drawLine(50, 50, 50, this.#canvas.height - 30, 2);
-
-    //draw x axis
-    this.#drawLine(50, this.#canvas.height - 30, this.#canvas.width - 40, this.#canvas.height - 30, 2);
-
     this.#drawBorder(6, '#AAAAAA')
 
     // draw 4 bars
-    this.#drawRectangle(100, this.#canvas.height - 100, 50, 70);
-    this.#drawRectangle(200, this.#canvas.height - 120, 50, 90);
-    this.#drawRectangle(300, this.#canvas.height - 110, 50, 80);
-    this.#drawRectangle(400, this.#canvas.height - 200, 50, 170);
+    this.#drawRectangle(100, this.#canvas.height - 100, 50, 70, 'rgba(255, 99, 132, 0.6');
+    this.#drawRectangle(200, this.#canvas.height - 120, 50, 90, 'rgba(54, 162, 235, 0.6)');
+    this.#drawRectangle(300, this.#canvas.height - 110, 50, 80, 'rgba(255, 206, 86, 0.6)');
+    this.#drawRectangle(400, this.#canvas.height - 200, 50, 170, 'rgba(75, 192, 192, 0.6)');
+
+    this.#drawOutLinedRectangle(100, this.#canvas.height - 100, 50, 70, 'rgba(255, 99, 132, 1)');
+    this.#drawOutLinedRectangle(200, this.#canvas.height - 120, 50, 90, 'rgba(54, 162, 235, 1)');
+    this.#drawOutLinedRectangle(300, this.#canvas.height - 110, 50, 80, 'rgba(255, 206, 86, 1)');
+    this.#drawOutLinedRectangle(400, this.#canvas.height - 200, 50, 170, 'rgba(75, 192, 192, 1)');
+
+    // draw y axis
+    this.#drawLine(50, 50, 50, this.#canvas.height - 30, 2, '#000000');
+
+    //draw x axis
+    this.#drawLine(50, this.#canvas.height - 30, this.#canvas.width - 40, this.#canvas.height - 30, 2,  '#000000');
 
     // draw some rectangle for the border of chart
     // this.#drawOutLinedRectangle(this.#canvasPadding, this.#canvasPadding, this.#canvas.width - this.#canvasPadding * 2, this.#canvas.height - this.#canvasPadding * 2);
@@ -42,15 +49,14 @@ export default class BarChart {
     this.#context.fill();
   }
 
-
-
-  #drawRectangle(posX, posY, width, height) {
-    this.#context.fillStyle = this.#getRandomColor();
+  #drawRectangle(posX, posY, width, height, color) {
+    this.#context.fillStyle = color;
     this.#context.fillRect(posX, posY, width, height);
   }
 
-  #drawOutLinedRectangle(posX, posY, width, height) {
-    this.#context.fillStroke = this.#getRandomColor();
+  #drawOutLinedRectangle(posX, posY, width, height, color) {
+    this.#context.strokeStyle = color;
+    this.#context.lineWidth = 2;
     this.#context.strokeRect(posX, posY, width, height);
   }
 
@@ -66,17 +72,17 @@ export default class BarChart {
 
   #drawBorder(lineWidth, color) {
     // draw corners
-    const margin = lineWidth/2;
-    this.#drawQuaterCircle(margin, margin, lineWidth/2, color, 2);
-    this.#drawQuaterCircle(this.#canvas.width-margin, margin, lineWidth/2, color, 1);
-    this.#drawQuaterCircle(this.#canvas.width-margin, this.#canvas.height-margin, lineWidth/2, color, 4);
-    this.#drawQuaterCircle(margin, this.#canvas.height-margin, lineWidth/2, color, 3);
+    const margin = lineWidth / 2;
+    this.#drawQuaterCircle(margin, margin, lineWidth / 2, color, 2);
+    this.#drawQuaterCircle(this.#canvas.width - margin, margin, lineWidth / 2, color, 1);
+    this.#drawQuaterCircle(this.#canvas.width - margin, this.#canvas.height - margin, lineWidth / 2, color, 4);
+    this.#drawQuaterCircle(margin, this.#canvas.height - margin, lineWidth / 2, color, 3);
 
     // draw line connecting the corneres
-    this.#drawLine(margin, margin, this.#canvas.width-margin, margin, lineWidth, color);
-    this.#drawLine(margin, margin, margin, this.#canvas.height-margin, lineWidth, color);
-    this.#drawLine(margin, this.#canvas.height-margin, this.#canvas.width-margin, this.#canvas.height-margin, lineWidth, color);
-    this.#drawLine(this.#canvas.width-margin, margin, this.#canvas.width-margin, this.#canvas.height-margin, lineWidth, color);
+    this.#drawLine(margin, margin, this.#canvas.width - margin, margin, lineWidth, color);
+    this.#drawLine(margin, margin, margin, this.#canvas.height - margin, lineWidth, color);
+    this.#drawLine(margin, this.#canvas.height - margin, this.#canvas.width - margin, this.#canvas.height - margin, lineWidth, color);
+    this.#drawLine(this.#canvas.width - margin, margin, this.#canvas.width - margin, this.#canvas.height - margin, lineWidth, color);
   }
 
   #drawLine(startX, startY, endX, endY, lineWidth, color) {
