@@ -34,57 +34,69 @@ export default class BarChart {
 
     const title = 'Favorite season'
     // number of labels and number of data points must match
-    const labels = ['Spring', 'Summer', 'Autumn', 'Winter']
-    const data = [2, 4, 7, 10]
-    
+    const xlabels = ['Spring', 'Summer', 'Autumn', 'Winter']
+    const data = [4, 20, 6, 2, 30, 60, 70]
+    const titleYAxis = 'Number of votes'
+
     const numberOfDataPoints = data.length
     console.log("Number of data points: " + numberOfDataPoints)
 
-    this.#context.fillStyle = "#333333"
-    this.#context.font = "18px Arial"
-    this.#context.fillText(title, this.#canvasPadding, 30)
+    this.#setTitle(title)
+
+    this.#drawXAxis('#000000')
 
     this.#drawBorder(4, '#AAAAAA')
 
-    const barPadding = 60
-    const barAreaWidth = this.#chartAreaWidth / numberOfDataPoints
-    const barWidth = barAreaWidth - barPadding
+    this.#drawBars(data)
 
-    const barXpos = this.#chartAreaXpos + (barPadding/2)
+    this.#drawXAxis('#000000')
 
-    const barYpos1 = this.#chartAreaYpos + this.#chartAreaHeight - 70
-    const barYpos2 = this.#chartAreaYpos + this.#chartAreaHeight - 90
-    const barYpos3 = this.#chartAreaYpos + this.#chartAreaHeight - 80
-    const barYpos4 = this.#chartAreaYpos + this.#chartAreaHeight - 170
-    
-    
-    const barHeights = []
+  }
 
-    // draw 4 bars
-    this.#drawBar(barXpos, barYpos1, barWidth, 70, 'rgba(255, 99, 132, 0.6');
-    this.#drawBar(barXpos + 1 * barAreaWidth, barYpos2, barWidth, 90, 'rgba(54, 162, 235, 0.6)');
-    this.#drawBar(barXpos + 2 * barAreaWidth, barYpos3, barWidth, 80, 'rgba(255, 206, 86, 0.6)');
-    this.#drawBar(barXpos + 3 * barAreaWidth, barYpos4, barWidth, 170, 'rgba(75, 192, 192, 0.6)');
+  #setTitle(title){
+    this.#context.fillStyle = "#333333"
+    this.#context.font = "18px Arial"
+    this.#context.fillText(title, this.#canvasPadding, this.#canvasPadding - 10)
+  }
 
-    // draw y axis
-    // this.#drawLine(50, 50, 50, this.#canvas.height - 30, 2, '#000000');
+  #drawXAxis(color) {
+    this.#drawLine(this.#canvasPadding, this.#canvasPadding + this.#chartAreaHeight, this.#canvasPadding + this.#chartAreaWidth, this.#canvasPadding + this.#chartAreaHeight, '#000000')
+    this.#drawLine(this.#canvasPadding, this.#canvasPadding + this.#chartAreaHeight, this.#canvasPadding + this.#chartAreaWidth, this.#canvasPadding + this.#chartAreaHeight, '#000000')
+  }
 
-    //draw x axis
-    // this.#drawLine(50, this.#canvas.height - 30, this.#canvas.width - 40, this.#canvas.height - 30, 2, '#000000');
+  #drawBars(data) {
+    const barSidePadding = 20
+    const barTopPadding = 20
 
+    const barAreaWidth = this.#chartAreaWidth / this.#getNumberOfDataPoints(data)
 
+    const barWidth = barAreaWidth - barSidePadding
+    for (let i = 0; i < this.#getNumberOfDataPoints(data); i++) {
+      let barXpos = this.#chartAreaXpos + (barSidePadding / 2) + i * barAreaWidth
+      let barYpos = this.#chartAreaYpos + this.#chartAreaHeight - ((this.#chartAreaHeight - barTopPadding) / this.#getMaxValue(data)) * data[i]
+      let barHeight = ((this.#chartAreaHeight - barTopPadding) / this.#getMaxValue(data)) * data[i]
+      this.#drawBar(barXpos, barYpos, barWidth, barHeight, this.#getRandomColor());
+    }
+  }
+
+  #getMaxValue(data) {
+    return Math.max(...data)
+  }
+
+  #getNumberOfDataPoints(data) {
+    return data.length
   }
 
   #drawDot(x, y, radius) {
-    this.#context.beginPath();
-    this.#context.arc(x, y, radius, 0, 2 * Math.PI);
-    this.#context.fillStyle = '#346823';
-    this.#context.fill();
+    this.#context.beginPath()
+    this.#context.arc(x, y, radius, 0, 2 * Math.PI)
+    this.#context.fillStyle = '#346823'
+    this.#context.fill()
   }
 
   #drawBar(posX, posY, width, height, color) {
-    this.#drawRectangle(posX, posY, width, height, color);
-    this.#drawOutLinedRectangle(posX, posY, width, height, color);
+    this.#drawRectangle(posX, posY, width, height, color)
+    this.#drawOutLinedRectangle(posX, posY, width, height, color)
   }
 
   #drawRectangle(posX, posY, width, height, color) {
