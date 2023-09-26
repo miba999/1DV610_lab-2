@@ -1,6 +1,6 @@
 body {
   color: #404040;
-  background-color: #ffffff;
+  background-color: #627578;
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
@@ -16,5 +16,5 @@ h1 {
   padding: 20px;
   align-items: center;
   border-radius: 24px;
-  background-color: #ececec;
+  background-color: #fdfdfd;
 }
