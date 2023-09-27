@@ -30,27 +30,27 @@ export default class BarChart {
     this.#chartAreaXpos = this.#canvasPadding
     this.#chartAreaYpos = this.#canvasPadding
 
-    this.#drawRectangle(this.#chartAreaXpos, this.#chartAreaYpos, this.#chartAreaWidth, this.#chartAreaHeight, '#eeeeee')
+    this.#drawRectangle(this.#chartAreaXpos, this.#chartAreaYpos, this.#chartAreaWidth, this.#chartAreaHeight, '#ffffff')
 
     const title = 'Favorite season'
     // number of labels and number of data points must match
     const xlabels = ['Spring', 'Summer', 'Autumn', 'Winter']
-    const data = [4, 20, 6, 2, 30, 60, 70]
+    const data = [10, 20, 6, 2, 10, 10,40]
     const titleYAxis = 'Number of votes'
 
     const numberOfDataPoints = data.length
     console.log("Number of data points: " + numberOfDataPoints)
 
     this.#setTitle(title)
-
-    this.#drawXAxis('#000000')
-
+    
     this.#drawBorder(4, '#AAAAAA')
 
+    // TODO: 
+    // this.#drawXAxis('#000000')
+    // this.#drawYAxis('#000000') 
+    // this.#drawGrid()
+
     this.#drawBars(data)
-
-    this.#drawXAxis('#000000')
-
   }
 
   #setTitle(title){
@@ -59,32 +59,27 @@ export default class BarChart {
     this.#context.fillText(title, this.#canvasPadding, this.#canvasPadding - 10)
   }
 
-  #drawXAxis(color) {
-    this.#drawLine(this.#canvasPadding, this.#canvasPadding + this.#chartAreaHeight, this.#canvasPadding + this.#chartAreaWidth, this.#canvasPadding + this.#chartAreaHeight, '#000000')
-    this.#drawLine(this.#canvasPadding, this.#canvasPadding + this.#chartAreaHeight, this.#canvasPadding + this.#chartAreaWidth, this.#canvasPadding + this.#chartAreaHeight, '#000000')
-  }
-
   #drawBars(data) {
-    const barSidePadding = 20
+    const barSidePadding = 10
     const barTopPadding = 20
 
-    const barAreaWidth = this.#chartAreaWidth / this.#getNumberOfDataPoints(data)
-
-    const barWidth = barAreaWidth - barSidePadding
-    for (let i = 0; i < this.#getNumberOfDataPoints(data); i++) {
-      let barXpos = this.#chartAreaXpos + (barSidePadding / 2) + i * barAreaWidth
-      let barYpos = this.#chartAreaYpos + this.#chartAreaHeight - ((this.#chartAreaHeight - barTopPadding) / this.#getMaxValue(data)) * data[i]
-      let barHeight = ((this.#chartAreaHeight - barTopPadding) / this.#getMaxValue(data)) * data[i]
-      this.#drawBar(barXpos, barYpos, barWidth, barHeight, this.#getRandomColor());
+    const numberOfDataPoints = data.length
+    const maxValue = this.#getMaxValue(data)
+    const barAreaWidth = this.#chartAreaWidth / numberOfDataPoints
+    const scalingFactor = (this.#chartAreaHeight - barTopPadding) / maxValue
+    
+    const barWidth = barAreaWidth - barSidePadding * 2
+    for (let i = 0; i < numberOfDataPoints; i++) {
+      const x = this.#chartAreaXpos + i * barAreaWidth + barSidePadding
+      const y = this.#chartAreaYpos + this.#chartAreaHeight - data[i] * scalingFactor
+      const barHeight = scalingFactor * data[i]
+   
+      this.#drawBar(x, y, barWidth, barHeight, 'rgba(34, 145, 23, 0.5)');
     }
   }
 
   #getMaxValue(data) {
     return Math.max(...data)
-  }
-
-  #getNumberOfDataPoints(data) {
-    return data.length
   }
 
   #drawDot(x, y, radius) {
