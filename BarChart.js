@@ -45,9 +45,12 @@ export default class BarChart {
     
     this.#drawBorder(4, '#AAAAAA')
 
+    
+    this.#drawGrid()
+
     this.#drawXAxis('#000000')
     this.#drawYAxis('#000000') 
-    // this.#drawGrid()
+
 
     this.#drawBars(data)
   }
@@ -76,6 +79,33 @@ export default class BarChart {
     const endY = this.#chartAreaYpos + this.#chartAreaHeight
 
     this.#drawLine(startX, startY, endX, endY, lineWidth, color);
+  }
+
+  #drawGrid() {
+    const color = '#DDDDDD'
+    const lineWidth = 2
+    const numberOfHorizontalGridLines = 5
+    const numberOfVerticalGridLines = 6
+    
+    const horicontalGridLineSpacing = this.#chartAreaHeight / numberOfHorizontalGridLines
+    const verticalGridlineSpacing = this.#chartAreaWidth / numberOfVerticalGridLines
+    
+    // draw horizontal lines
+    const startX = this.#chartAreaXpos
+    const endX = this.#chartAreaXpos + this.#chartAreaWidth
+    for (let i = 0; i < numberOfHorizontalGridLines; i++) {
+      let y  = this.#chartAreaYpos + i * horicontalGridLineSpacing
+      this.#drawLine(startX, y, endX, y, lineWidth, color);
+    }
+
+    // draw vertical lines
+    const startY = this.#chartAreaYpos
+    const endY = this.#chartAreaYpos + this.#chartAreaHeight
+    for (let i = 0; i < numberOfVerticalGridLines; i++) {
+      let x  = this.#chartAreaXpos + i * verticalGridlineSpacing
+      this.#drawLine(x, startY, x, endY, lineWidth, color);
+    }
+
   }
 
   #drawBars(data) {
