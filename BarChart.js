@@ -46,7 +46,7 @@ export default class BarChart {
     this.#drawBorder(4, '#AAAAAA')
 
     this.#drawXAxis('#000000')
-    // this.#drawYAxis('#000000') 
+    this.#drawYAxis('#000000') 
     // this.#drawGrid()
 
     this.#drawBars(data)
@@ -63,6 +63,16 @@ export default class BarChart {
     const startX = this.#chartAreaXpos
     const startY = this.#chartAreaYpos + this.#chartAreaHeight
     const endX = this.#chartAreaXpos + this.#chartAreaWidth
+    const endY = this.#chartAreaYpos + this.#chartAreaHeight
+
+    this.#drawLine(startX, startY, endX, endY, lineWidth, color);
+  }
+
+  #drawYAxis(color) {
+    const lineWidth = 2;
+    const startX = this.#chartAreaXpos
+    const startY = this.#chartAreaYpos
+    const endX = this.#chartAreaXpos
     const endY = this.#chartAreaYpos + this.#chartAreaHeight
 
     this.#drawLine(startX, startY, endX, endY, lineWidth, color);
