@@ -1,3 +1,5 @@
+import { drawLine, drawCircle } from './chartUtils.js'
+
 export default class BarChart {
   #canvas
   #context
@@ -21,41 +23,30 @@ export default class BarChart {
     // default height of canvas is 150, change it to 300
     this.#canvas.height = 300
 
+    console.log(this.#canvas.width) // default: 300
+    console.log(this.#canvas.height) // default: 150
+
     this.#chartAreaWidth = this.#canvas.width - this.#canvasPadding * 2
     this.#chartAreaHeight = this.#canvas.height - this.#canvasPadding * 2
-
-    console.log(this.#chartAreaWidth)
-    console.log(this.#chartAreaHeight)
 
     this.#chartAreaXpos = this.#canvasPadding
     this.#chartAreaYpos = this.#canvasPadding
 
-    this.#drawRectangle(this.#chartAreaXpos, this.#chartAreaYpos, this.#chartAreaWidth, this.#chartAreaHeight, '#ffffff')
 
     const title = 'Favorite season'
-    // number of labels and number of data points must match
     const xlabels = ['Spring', 'Summer', 'Autumn', 'Winter']
-    const data = [10, 20, 6, 2, 10, 10,40]
+    const data = [10, 20, 6, 2, 10, 10]
     const titleYAxis = 'Number of votes'
 
-    const numberOfDataPoints = data.length
-    console.log("Number of data points: " + numberOfDataPoints)
-
     this.#setTitle(title)
-    
     this.#drawBorder(4, '#AAAAAA')
-
-    
     this.#drawGrid()
-
     this.#drawXAxis('#000000')
-    this.#drawYAxis('#000000') 
-
-
+    this.#drawYAxis('#000000')
     this.#drawBars(data)
   }
 
-  #setTitle(title){
+  #setTitle(title) {
     this.#context.fillStyle = "#333333"
     this.#context.font = "18px Arial"
     this.#context.fillText(title, this.#canvasPadding, this.#canvasPadding - 10)
@@ -68,7 +59,7 @@ export default class BarChart {
     const endX = this.#chartAreaXpos + this.#chartAreaWidth
     const endY = this.#chartAreaYpos + this.#chartAreaHeight
 
-    this.#drawLine(startX, startY, endX, endY, lineWidth, color);
+    drawLine(this.#context, startX, startY, endX, endY, lineWidth, color);
   }
 
   #drawYAxis(color) {
@@ -78,7 +69,7 @@ export default class BarChart {
     const endX = this.#chartAreaXpos
     const endY = this.#chartAreaYpos + this.#chartAreaHeight
 
-    this.#drawLine(startX, startY, endX, endY, lineWidth, color);
+    drawLine(this.#context, startX, startY, endX, endY, lineWidth, color);
   }
 
   #drawGrid() {
@@ -86,24 +77,24 @@ export default class BarChart {
     const lineWidth = 2
     const numberOfHorizontalGridLines = 5
     const numberOfVerticalGridLines = 6
-    
+
     const horicontalGridLineSpacing = this.#chartAreaHeight / numberOfHorizontalGridLines
     const verticalGridlineSpacing = this.#chartAreaWidth / numberOfVerticalGridLines
-    
+
     // draw horizontal lines
     const startX = this.#chartAreaXpos
     const endX = this.#chartAreaXpos + this.#chartAreaWidth
     for (let i = 0; i < numberOfHorizontalGridLines; i++) {
-      let y  = this.#chartAreaYpos + i * horicontalGridLineSpacing
-      this.#drawLine(startX, y, endX, y, lineWidth, color);
+      let y = this.#chartAreaYpos + i * horicontalGridLineSpacing
+      drawLine(this.#context, startX, y, endX, y, lineWidth, color);
     }
 
     // draw vertical lines
     const startY = this.#chartAreaYpos
     const endY = this.#chartAreaYpos + this.#chartAreaHeight
     for (let i = 0; i < numberOfVerticalGridLines; i++) {
-      let x  = this.#chartAreaXpos + i * verticalGridlineSpacing
-      this.#drawLine(x, startY, x, endY, lineWidth, color);
+      let x = this.#chartAreaXpos + i * verticalGridlineSpacing
+      drawLine(this.#context, x, startY, x, endY, lineWidth, color);
     }
 
   }
@@ -116,26 +107,19 @@ export default class BarChart {
     const maxValue = this.#getMaxValue(data)
     const barAreaWidth = this.#chartAreaWidth / numberOfDataPoints
     const scalingFactor = (this.#chartAreaHeight - barTopPadding) / maxValue
-    
+
     const barWidth = barAreaWidth - barSidePadding * 2
     for (let i = 0; i < numberOfDataPoints; i++) {
       const x = this.#chartAreaXpos + i * barAreaWidth + barSidePadding
       const y = this.#chartAreaYpos + this.#chartAreaHeight - data[i] * scalingFactor
       const barHeight = scalingFactor * data[i]
-   
+
       this.#drawBar(x, y, barWidth, barHeight, 'rgba(34, 145, 23, 0.5)');
     }
   }
 
   #getMaxValue(data) {
     return Math.max(...data)
-  }
-
-  #drawDot(x, y, radius) {
-    this.#context.beginPath()
-    this.#context.arc(x, y, radius, 0, 2 * Math.PI)
-    this.#context.fillStyle = '#346823'
-    this.#context.fill()
   }
 
   #drawBar(posX, posY, width, height, color) {
@@ -173,19 +157,10 @@ export default class BarChart {
     this.#drawQuaterCircle(margin, this.#canvas.height - margin, lineWidth / 2, color, 3)
 
     // draw line connecting the corneres
-    this.#drawLine(margin, margin, this.#canvas.width - margin, margin, lineWidth, color)
-    this.#drawLine(margin, margin, margin, this.#canvas.height - margin, lineWidth, color)
-    this.#drawLine(margin, this.#canvas.height - margin, this.#canvas.width - margin, this.#canvas.height - margin, lineWidth, color)
-    this.#drawLine(this.#canvas.width - margin, margin, this.#canvas.width - margin, this.#canvas.height - margin, lineWidth, color)
-  }
-
-  #drawLine(startX, startY, endX, endY, lineWidth, color) {
-    this.#context.beginPath()
-    this.#context.moveTo(startX, startY)
-    this.#context.lineTo(endX, endY)
-    this.#context.strokeStyle = color
-    this.#context.lineWidth = lineWidth
-    this.#context.stroke()
+    drawLine(this.#context, margin, margin, this.#canvas.width - margin, margin, lineWidth, color)
+    drawLine(this.#context, margin, margin, margin, this.#canvas.height - margin, lineWidth, color)
+    drawLine(this.#context, margin, this.#canvas.height - margin, this.#canvas.width - margin, this.#canvas.height - margin, lineWidth, color)
+    drawLine(this.#context, this.#canvas.width - margin, margin, this.#canvas.width - margin, this.#canvas.height - margin, lineWidth, color)
   }
 
   /**
