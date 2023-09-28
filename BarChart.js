@@ -23,8 +23,7 @@ export default class BarChart {
     // set default height and width
     this.setWidth(600)
     this.setHeight(300)
-
-    this.#initializeChart()
+    
     this.#drawChart()
   }
 
@@ -62,6 +61,9 @@ export default class BarChart {
   }
 
   #drawChart() {
+    this.#setChartAreaOrigin()
+    this.#setChartAreaWidth()
+    this.#setChartAreaHeight()
     this.#drawBorder(10, '#DDDDDD')
     this.#drawXAxis('#000000')
     this.#drawYAxis('#000000')
@@ -79,15 +81,11 @@ export default class BarChart {
 
   setHeight(newHeight) {
     this.#canvas.height = newHeight
-
-    this.#initializeChart()
     this.#drawChart()
   }
 
   setWidth(newWidth) {
     this.#canvas.width = newWidth
-
-    this.#initializeChart()
     this.#drawChart()
   }
 
@@ -125,12 +123,6 @@ export default class BarChart {
     this.#context.textAlign = 'center'
     this.#context.fillText(label, 0, 0)
     this.#context.restore()
-  }
-
-  #initializeChart() {
-    this.#setChartAreaOrigin()
-    this.#setChartAreaWidth()
-    this.#setChartAreaHeight()
   }
 
   #setChartAreaOrigin() {
