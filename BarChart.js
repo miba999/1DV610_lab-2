@@ -9,26 +9,38 @@ export default class BarChart {
   #chartAreaHeight
   #chartAreaXpos
   #chartAreaYpos
+  #canvasHeight
 
   constructor(id) {
     this.#canvas = document.getElementById(id)
     this.#context = this.#canvas.getContext('2d')
 
     // default width of canvas is 300, change it 600
-    this.#canvas.width = 600
-
+    this.setWidth(800)
+    
     // default height of canvas is 150, change it to 300
-    this.#canvas.height = 300
-
-    this.#setChartAreaOrigin()
-    this.#setChartAreaWidth()
-    this.#setChartAreaHeight()
+    this.setHeight(500)
 
     const title = 'Favorite season'
     const xlabels = ['Spring', 'Summer', 'Autumn', 'Winter']
     const data = [10, 20, 6, 2, 10, 10]
     const titleYAxis = 'Number of votes'
 
+    this.#drawChart(title, data, titleYAxis, xlabels)
+  }
+
+  setHeight(newHeight) {
+    this.#canvas.height = newHeight
+  }
+
+  setWidth(newWidth) {
+    this.#canvas.width = newWidth
+  }
+
+  #drawChart(title, data, titleYAxis, xlabels) {
+    this.#setChartAreaOrigin()
+    this.#setChartAreaWidth()
+    this.#setChartAreaHeight()
     this.#drawTitle(title)
     this.#drawBorder(4, '#AAAAAA')
     this.#drawGrid()
