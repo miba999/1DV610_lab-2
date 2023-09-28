@@ -53,6 +53,13 @@ export default class BarChart {
   }
 
   /**
+   * Sets the color of the bars in the bar chart to random colors.
+   */
+  setRandomColors() {
+    this.#drawBarsInRandomColors(this.#data)
+  }
+
+  /**
    * Sets the data for the bar chart. The number of data points must match the number of categories.
    *
    * @param {Array} data - An array of numbers representing the data points for the bar chart.
@@ -136,6 +143,24 @@ export default class BarChart {
       const barHeight = scalingFactor * data[i]
 
       this.#drawBar(x, y, barWidth, barHeight, color);
+    }
+  }
+
+  #drawBarsInRandomColors(data) {
+    const barSidePadding = 10
+    const numberOfDataPoints = data.length
+    const maxValue = this.#getMaxValue(data)
+    const barAreaWidth = this.#chartAreaWidth / numberOfDataPoints
+    const scalingFactor = this.#chartAreaHeight / maxValue
+    const barWidth = barAreaWidth - barSidePadding * 2
+
+    // draw bar for every data point
+    for (let i = 0; i < numberOfDataPoints; i++) {
+      const x = this.#chartAreaXpos + i * barAreaWidth + barSidePadding
+      const y = this.#chartAreaYpos + this.#chartAreaHeight - data[i] * scalingFactor
+      const barHeight = scalingFactor * data[i]
+
+      this.#drawBar(x, y, barWidth, barHeight, this.#generateRandomColor());
     }
   }
 
