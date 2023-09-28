@@ -19,7 +19,7 @@ const title2 = 'Favorite color'
 const xLabel2 = 'Colors'
 const yLabel2 = 'Number of votes'
 const categories2 = ['Red', 'Green', 'Blue', 'Yellow', 'White', 'Black', 'Orange', 'Purple', 'Pink', 'Brown', 'Gray', 'Other']
-const data2 = [11, 28, 4, 50, 3, 100, 23, 52, 73, 23, 21, 34]
+const data2 = [11, 28, 4, 50, 3, 100, 23, 52, 73, 23, 21, 150]
 barchart2.setHeight(400)
 barchart2.setWidth(800)
 barchart2.setTitle(title2)
