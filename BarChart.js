@@ -293,6 +293,16 @@ export default class BarChart {
     return Math.max(...data)
   }
 
+  #generateRandomColor() {
+    const hexDigits = '0123456789ABCDEF'
+    let color = '#'
+
+    for (let i = 0; i < 6; i++) {
+      color += hexDigits[Math.floor(Math.random() * 16)]
+    }
+    return color
+  }
+
   #setChartAreaHeight() {
     this.#chartAreaHeight = this.#canvas.height - this.#canvasTopPadding - this.#canvasBottomPadding
   }
