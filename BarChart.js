@@ -3,8 +3,12 @@ import { drawLine, drawCircle } from './chartUtils.js'
 export default class BarChart {
   #canvas
   #context
-  #canvasPadding = 50
-  #borderPadding = 5
+
+  #canvasTopPadding = 60
+  #canvasBottomPadding = 60
+  #canvasRightPadding = 20
+  #canvasLeftPadding = 100
+
   #chartAreaWidth
   #chartAreaHeight
   #chartAreaXpos
@@ -55,6 +59,19 @@ export default class BarChart {
     this.#setChartAreaHeight()
   }
 
+  #setChartAreaOrigin() {
+    this.#chartAreaXpos = this.#canvasLeftPadding
+    this.#chartAreaYpos = this.#canvasTopPadding
+  }
+
+  #setChartAreaWidth() {
+    this.#chartAreaWidth = this.#canvas.width - this.#canvasLeftPadding - this.#canvasRightPadding
+  }
+
+  #setChartAreaHeight() {
+    this.#chartAreaHeight = this.#canvas.height - this.#canvasTopPadding - this.#canvasBottomPadding
+  }
+
   #drawChart() {
     this.#drawBorder(4, '#AAAAAA')
     this.#drawGrid()
@@ -72,7 +89,7 @@ export default class BarChart {
 
   setXLabels(xLabels) {
     const barAreaWidth = this.#chartAreaWidth / xLabels.length
-    const y = this.#chartAreaYpos + this.#chartAreaHeight + (this.#canvasPadding / 2)
+    const y = this.#chartAreaYpos + this.#chartAreaHeight + (this.#canvasBottomPadding / 2)
 
     for (let i = 0; i < xLabels.length; i++) {
       let x = this.#chartAreaXpos + (barAreaWidth / 2) + i * barAreaWidth
@@ -87,23 +104,12 @@ export default class BarChart {
     this.#context.fillText(text, x, y)
   }
 
-  #setChartAreaOrigin() {
-    this.#chartAreaXpos = this.#canvasPadding
-    this.#chartAreaYpos = this.#canvasPadding
-  }
-
-  #setChartAreaWidth() {
-    this.#chartAreaWidth = this.#canvas.width - this.#canvasPadding * 2
-  }
-
-  #setChartAreaHeight() {
-    this.#chartAreaHeight = this.#canvas.height - this.#canvasPadding * 2
-  }
-
   #drawTitle(title) {
+    const x = this.#canvasLeftPadding
+    const y = this.#canvasTopPadding - 20
     this.#context.fillStyle = "#333333"
     this.#context.font = "18px Arial"
-    this.#context.fillText(title, this.#canvasPadding, this.#canvasPadding - 10)
+    this.#context.fillText(title, x, y)
   }
 
   #drawXAxis(color) {
