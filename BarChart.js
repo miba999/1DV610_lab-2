@@ -8,6 +8,7 @@ export default class BarChart {
   #canvasBottomPadding = 70
   #canvasRightPadding = 20
   #canvasLeftPadding = 100
+  #barColor = 'rgba(34, 145, 23, 0.5)'
 
   #chartAreaWidth
   #chartAreaHeight
@@ -24,6 +25,55 @@ export default class BarChart {
     this.setHeight(300)
 
     this.#initializeChart()
+    this.#drawChart()
+  }
+
+  #drawXAxisScale(data) {
+    const maxValue = this.#getMaxValue(data)
+    const scalingFactor = this.#chartAreaHeight / maxValue
+    const scaleLineWidth = 10
+    const startX = this.#chartAreaXpos - scaleLineWidth
+    const endX = this.#chartAreaXpos
+
+    for (let i = 0; i <= maxValue; i = i + 5) {
+      // draw scale line
+      const y = this.#chartAreaYpos + this.#chartAreaHeight - (i * scalingFactor)
+      drawLine(this.#context, startX, y, endX, y, 2, '#000000')
+
+      // draw value of scale
+      this.#context.fillStyle = "#000000"
+      this.#context.font = "12px Arial"
+      this.#context.textAlign = 'center'
+      this.#context.fillText(i, this.#chartAreaXpos - scaleLineWidth - 10, y + 4)
+    }
+  }
+
+  #drawHorizontalLines(data) {
+    const maxValue = this.#getMaxValue(data)
+    const scalingFactor = this.#chartAreaHeight / maxValue
+   
+    const startX = this.#chartAreaXpos 
+    const endX = this.#chartAreaXpos + this.#chartAreaWidth
+
+    for (let i = 0; i <= maxValue; i = i + 5) {
+      const y = this.#chartAreaYpos + this.#chartAreaHeight - (i * scalingFactor)
+      drawLine(this.#context, startX, y, endX, y, 2, '#CCCCCC')
+    }
+  }
+
+  #drawChart() {
+    this.#drawBorder(10, '#DDDDDD')
+    this.#drawXAxis('#000000')
+    this.#drawYAxis('#000000')
+    if (typeof this.#data !== 'undefined') {
+      this.#drawXAxisScale(this.#data)
+      this.#drawHorizontalLines(this.#data)
+      this.#drawBars(this.#data, this.#barColor)
+    }
+  }
+
+  setColor(color) {
+    this.#barColor = color
     this.#drawChart()
   }
 
@@ -94,16 +144,6 @@ export default class BarChart {
 
   #setChartAreaHeight() {
     this.#chartAreaHeight = this.#canvas.height - this.#canvasTopPadding - this.#canvasBottomPadding
-  }
-
-  #drawChart() {
-    this.#drawBorder(4, '#AAAAAA')
-    this.#drawGrid()
-    this.#drawXAxis('#000000')
-    this.#drawYAxis('#000000')
-    if (typeof this.#data !== 'undefined') {
-      this.#drawBars(this.#data)
-    }
   }
 
   setData(data) {
@@ -182,14 +222,13 @@ export default class BarChart {
 
   }
 
-  #drawBars(data) {
+  #drawBars(data, color) {
     const barSidePadding = 10
-    const barTopPadding = 20
 
     const numberOfDataPoints = data.length
     const maxValue = this.#getMaxValue(data)
     const barAreaWidth = this.#chartAreaWidth / numberOfDataPoints
-    const scalingFactor = (this.#chartAreaHeight - barTopPadding) / maxValue
+    const scalingFactor = this.#chartAreaHeight / maxValue
 
     const barWidth = barAreaWidth - barSidePadding * 2
     for (let i = 0; i < numberOfDataPoints; i++) {
@@ -197,7 +236,7 @@ export default class BarChart {
       const y = this.#chartAreaYpos + this.#chartAreaHeight - data[i] * scalingFactor
       const barHeight = scalingFactor * data[i]
 
-      this.#drawBar(x, y, barWidth, barHeight, 'rgba(34, 145, 23, 0.5)');
+      this.#drawBar(x, y, barWidth, barHeight, color);
     }
   }
 
