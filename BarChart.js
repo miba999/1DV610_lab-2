@@ -14,31 +14,22 @@ export default class BarChart {
     this.#canvas = document.getElementById(id)
     this.#context = this.#canvas.getContext('2d')
 
-    console.log(this.#canvas.width) // default: 300
-    console.log(this.#canvas.height) // default: 150
-
     // default width of canvas is 300, change it 600
     this.#canvas.width = 600
 
     // default height of canvas is 150, change it to 300
     this.#canvas.height = 300
 
-    console.log(this.#canvas.width) // default: 300
-    console.log(this.#canvas.height) // default: 150
-
-    this.#chartAreaWidth = this.#canvas.width - this.#canvasPadding * 2
-    this.#chartAreaHeight = this.#canvas.height - this.#canvasPadding * 2
-
-    this.#chartAreaXpos = this.#canvasPadding
-    this.#chartAreaYpos = this.#canvasPadding
-
+    this.#setChartAreaOrigin()
+    this.#setChartAreaWidth()
+    this.#setChartAreaHeight()
 
     const title = 'Favorite season'
     const xlabels = ['Spring', 'Summer', 'Autumn', 'Winter']
     const data = [10, 20, 6, 2, 10, 10]
     const titleYAxis = 'Number of votes'
 
-    this.#setTitle(title)
+    this.#drawTitle(title)
     this.#drawBorder(4, '#AAAAAA')
     this.#drawGrid()
     this.#drawXAxis('#000000')
@@ -46,7 +37,20 @@ export default class BarChart {
     this.#drawBars(data)
   }
 
-  #setTitle(title) {
+  #setChartAreaOrigin() {
+    this.#chartAreaXpos = this.#canvasPadding
+    this.#chartAreaYpos = this.#canvasPadding
+  }
+
+  #setChartAreaWidth() {
+    this.#chartAreaWidth = this.#canvas.width - this.#canvasPadding * 2
+  }
+
+  #setChartAreaHeight() {
+    this.#chartAreaHeight = this.#canvas.height - this.#canvasPadding * 2
+  }
+
+  #drawTitle(title) {
     this.#context.fillStyle = "#333333"
     this.#context.font = "18px Arial"
     this.#context.fillText(title, this.#canvasPadding, this.#canvasPadding - 10)
