@@ -212,7 +212,7 @@ export default class BarChart {
     this.#drawXAxis('#000000')
     this.#drawYAxis('#000000')
     if (typeof this.#data !== 'undefined') {
-      this.#drawXAxisScale(this.#data)
+      this.#drawYAxisScale(this.#data)
       this.#drawHorizontalLines(this.#data)
       this.#drawBars(this.#data, this.#barColor)
     }
@@ -223,8 +223,17 @@ export default class BarChart {
     const scalingFactor = this.#chartAreaHeight / maxValue
     const startX = this.#chartAreaXpos
     const endX = this.#chartAreaXpos + this.#chartAreaWidth
+    
+    let increment
+    if (maxValue < 10) {
+      increment = 1
+    } else if (maxValue < 200) { 
+      increment = 10
+    } else { 
+      increment = 100
+    }
 
-    for (let i = 0; i <= maxValue; i = i + 5) {
+    for (let i = 0; i <= maxValue; i = i + increment) {
       const y = this.#chartAreaYpos + this.#chartAreaHeight - (i * scalingFactor)
       this.#drawLine(startX, y, endX, y, 2, '#CCCCCC')
     }
@@ -291,26 +300,6 @@ export default class BarChart {
     this.#context.fillText(label, x, y)
   }
 
-  #drawXAxisScale(data) {
-    const maxValue = this.#getMaxValue(data)
-    const scalingFactor = this.#chartAreaHeight / maxValue
-    const scaleLineWidth = 10
-    const startX = this.#chartAreaXpos - scaleLineWidth
-    const endX = this.#chartAreaXpos
-
-    for (let i = 0; i <= maxValue; i = i + 5) {
-      // draw scale line
-      const y = this.#chartAreaYpos + this.#chartAreaHeight - (i * scalingFactor)
-      this.#drawLine(startX, y, endX, y, 2, '#000000')
-
-      // draw value of scale
-      this.#context.fillStyle = "#000000"
-      this.#context.font = "12px Arial"
-      this.#context.textAlign = 'center'
-      this.#context.fillText(i, this.#chartAreaXpos - scaleLineWidth - 10, y + 4)
-    }
-  }
-
   #drawYAxis(color) {
     const lineWidth = 2;
     const startX = this.#chartAreaXpos
@@ -330,6 +319,36 @@ export default class BarChart {
     this.#context.textAlign = 'center'
     this.#context.fillText(label, 0, 0)
     this.#context.restore()
+  }
+
+  #drawYAxisScale(data) {
+    const maxValue = this.#getMaxValue(data)
+    const scalingFactor = this.#chartAreaHeight / maxValue
+    const scaleLineWidth = 10
+    const startX = this.#chartAreaXpos - scaleLineWidth
+    const endX = this.#chartAreaXpos
+
+    let increment = maxValue / 10
+
+    if (maxValue < 10) {
+      increment = 1
+    } else if (maxValue < 200) { 
+      increment = 10
+    } else { 
+      increment = 100
+    }
+
+    for (let i = 0; i <= maxValue; i = i + increment) {
+      // draw scale line
+      const y = this.#chartAreaYpos + this.#chartAreaHeight - (i * scalingFactor)
+      this.#drawLine(startX, y, endX, y, 2, '#000000')
+
+      // draw value of scale
+      this.#context.fillStyle = "#000000"
+      this.#context.font = "12px Arial"
+      this.#context.textAlign = 'center'
+      this.#context.fillText(i, this.#chartAreaXpos - scaleLineWidth - 10, y + 4)
+    }
   }
 
   #getMaxValue(data) {
