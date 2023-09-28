@@ -19,36 +19,34 @@ export default class BarChart {
     this.setHeight(300)
 
     const title = 'Favorite season'
-    const xlabels = ['Spring', 'Summer', 'Autumn', 'Winter']
     const data = [10, 20, 6, 2, 10, 10]
     const titleYAxis = 'Number of votes'
 
-    this.#drawChart(title, data, titleYAxis, xlabels)
+    this.#drawChart(title, data, titleYAxis)
   }
 
   setHeight(newHeight) {
     const title = 'Favorite season'
-    const xlabels = ['Spring', 'Summer', 'Autumn', 'Winter']
     const data = [10, 20, 6, 2, 10, 10]
     const titleYAxis = 'Number of votes'
     
     this.#canvas.height = newHeight
 
-    this.#drawChart(title, data, titleYAxis, xlabels)
+    this.#drawChart(title, data, titleYAxis)
   }
 
   setWidth(newWidth) {
     const title = 'Favorite season'
-    const xlabels = ['Spring', 'Summer', 'Autumn', 'Winter']
-    const data = [10, 20, 6, 2, 10, 10]
+    
+    const data = [10, 20, 6, 2, 2]
     const titleYAxis = 'Number of votes'
 
     this.#canvas.width = newWidth
 
-    this.#drawChart(title, data, titleYAxis, xlabels)
+    this.#drawChart(title, data, titleYAxis)
   }
 
-  #drawChart(title, data, titleYAxis, xlabels) {
+  #drawChart(title, data, titleYAxis) {
     this.#setChartAreaOrigin()
     this.#setChartAreaWidth()
     this.#setChartAreaHeight()
@@ -58,6 +56,20 @@ export default class BarChart {
     this.#drawXAxis('#000000')
     this.#drawYAxis('#000000')
     this.#drawBars(data)
+  }
+
+  drawXLabels(xLabels) {
+    const barAreaWidth = this.#chartAreaWidth / xLabels.length
+    const y = this.#chartAreaYpos + this.#chartAreaHeight + (this.#canvasPadding / 2)
+
+    this.#context.fillStyle = "#000000"
+    this.#context.font = "12px Arial"
+    this.#context.textAlign = 'center'
+    
+    for (let i = 0; i < xLabels.length; i++) {
+      let x = this.#chartAreaXpos + (barAreaWidth / 2) + i * barAreaWidth
+      this.#context.fillText(xLabels[i], x, y)
+    }
   }
 
   #setChartAreaOrigin() {
