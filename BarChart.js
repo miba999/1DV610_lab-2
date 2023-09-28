@@ -5,7 +5,7 @@ export default class BarChart {
   #context
 
   #canvasTopPadding = 60
-  #canvasBottomPadding = 60
+  #canvasBottomPadding = 70
   #canvasRightPadding = 20
   #canvasLeftPadding = 100
 
@@ -23,16 +23,11 @@ export default class BarChart {
     this.setWidth(600)
     this.setHeight(300)
 
-    const titleYAxis = 'Number of votes'
-
     this.#initializeChart()
     this.#drawChart()
   }
 
   setHeight(newHeight) {
-    const title = 'Favorite season'
-    const titleYAxis = 'Number of votes'
-
     this.#canvas.height = newHeight
 
     this.#initializeChart()
@@ -40,9 +35,6 @@ export default class BarChart {
   }
 
   setWidth(newWidth) {
-    const title = 'Favorite season'
-    const titleYAxis = 'Number of votes'
-
     this.#canvas.width = newWidth
 
     this.#initializeChart()
@@ -50,7 +42,39 @@ export default class BarChart {
   }
 
   setTitle(title) {
-    this.#drawTitle(title)
+    const x = this.#canvasLeftPadding
+    const y = this.#canvasTopPadding - 20
+    this.#drawTitle(title, x, y)
+  }
+
+  setXAxisLabel(label) {
+    const x = this.#chartAreaXpos + this.#chartAreaWidth / 2
+    const y = this.#chartAreaYpos + this.#chartAreaHeight + this.#canvasBottomPadding * 2 / 3
+    this.#drawXAxisLabel(label, x, y)
+  }
+
+  setYAxisLabel(label) {
+    const x = this.#canvasLeftPadding / 5 * 2
+    const y = this.#chartAreaYpos + (this.#chartAreaHeight / 2)
+    this.#drawYAxisLabel(label, x, y)
+  }
+
+  #drawXAxisLabel(label, x, y) {
+    this.#context.fillStyle = "#000000"
+    this.#context.font = "16px Arial"
+    this.#context.textAlign = 'center'
+    this.#context.fillText(label, x, y)
+  }
+
+  #drawYAxisLabel(label, x, y) {
+    this.#context.save()
+    this.#context.translate(x, y)
+    this.#context.rotate(- Math.PI / 2)
+    this.#context.fillStyle = "#000000"
+    this.#context.font = "16px Arial"
+    this.#context.textAlign = 'center'
+    this.#context.fillText(label, 0, 0)
+    this.#context.restore()
   }
 
   #initializeChart() {
@@ -87,26 +111,25 @@ export default class BarChart {
     this.#drawChart()
   }
 
-  setXLabels(xLabels) {
+  setCategories(xLabels) {
     const barAreaWidth = this.#chartAreaWidth / xLabels.length
-    const y = this.#chartAreaYpos + this.#chartAreaHeight + (this.#canvasBottomPadding / 2)
+    const y = this.#chartAreaYpos + this.#chartAreaHeight + 16
 
     for (let i = 0; i < xLabels.length; i++) {
       let x = this.#chartAreaXpos + (barAreaWidth / 2) + i * barAreaWidth
-      this.#drawXLabel(xLabels[i], x, y)
+      this.#drawCategory(xLabels[i], x, y)
     }
   }
 
-  #drawXLabel(text, x, y){
+  #drawCategory(text, x, y) {
     this.#context.fillStyle = "#000000"
     this.#context.font = "12px Arial"
     this.#context.textAlign = 'center'
     this.#context.fillText(text, x, y)
   }
 
-  #drawTitle(title) {
-    const x = this.#canvasLeftPadding
-    const y = this.#canvasTopPadding - 20
+  #drawTitle(title, x, y) {
+
     this.#context.fillStyle = "#333333"
     this.#context.font = "18px Arial"
     this.#context.fillText(title, x, y)
