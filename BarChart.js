@@ -9,53 +9,65 @@ export default class BarChart {
   #chartAreaHeight
   #chartAreaXpos
   #chartAreaYpos
-  #canvasHeight
+  #data
 
   constructor(id) {
     this.#canvas = document.getElementById(id)
     this.#context = this.#canvas.getContext('2d')
 
+    // set default height and width
     this.setWidth(600)
     this.setHeight(300)
 
-    const title = 'Favorite season'
-    const data = [10, 20, 6, 2, 10, 10]
     const titleYAxis = 'Number of votes'
 
-    this.#drawChart(title, data, titleYAxis)
+    this.#initializeChart()
+    this.#drawChart()
   }
 
   setHeight(newHeight) {
     const title = 'Favorite season'
-    const data = [10, 20, 6, 2, 10, 10]
     const titleYAxis = 'Number of votes'
     
     this.#canvas.height = newHeight
 
-    this.#drawChart(title, data, titleYAxis)
+    this.#initializeChart()
+    this.#drawChart()
   }
 
   setWidth(newWidth) {
     const title = 'Favorite season'
-    
-    const data = [10, 20, 6, 2, 2]
     const titleYAxis = 'Number of votes'
 
     this.#canvas.width = newWidth
 
-    this.#drawChart(title, data, titleYAxis)
+    this.#initializeChart()
+    this.#drawChart()
   }
 
-  #drawChart(title, data, titleYAxis) {
+  setTitle(title) {
+    this.#drawTitle(title)
+  }
+
+  #initializeChart() {
     this.#setChartAreaOrigin()
     this.#setChartAreaWidth()
     this.#setChartAreaHeight()
-    this.#drawTitle(title)
+  }
+
+  #drawChart() {
     this.#drawBorder(4, '#AAAAAA')
     this.#drawGrid()
     this.#drawXAxis('#000000')
     this.#drawYAxis('#000000')
-    this.#drawBars(data)
+    if (typeof this.#data !== 'undefined') {
+      this.#drawBars(this.#data)
+    }
+  }
+
+  setData(data) {
+    this.#data = data
+    this.#drawChart()
   }
 
   drawXLabels(xLabels) {
