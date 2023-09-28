@@ -28,7 +28,7 @@ export default class BarChart {
   setHeight(newHeight) {
     const title = 'Favorite season'
     const titleYAxis = 'Number of votes'
-    
+
     this.#canvas.height = newHeight
 
     this.#initializeChart()
@@ -70,18 +70,21 @@ export default class BarChart {
     this.#drawChart()
   }
 
-  drawXLabels(xLabels) {
+  setXLabels(xLabels) {
     const barAreaWidth = this.#chartAreaWidth / xLabels.length
     const y = this.#chartAreaYpos + this.#chartAreaHeight + (this.#canvasPadding / 2)
 
+    for (let i = 0; i < xLabels.length; i++) {
+      let x = this.#chartAreaXpos + (barAreaWidth / 2) + i * barAreaWidth
+      this.#drawXLabel(xLabels[i], x, y)
+    }
+  }
+
+  #drawXLabel(text, x, y){
     this.#context.fillStyle = "#000000"
     this.#context.font = "12px Arial"
     this.#context.textAlign = 'center'
-    
-    for (let i = 0; i < xLabels.length; i++) {
-      let x = this.#chartAreaXpos + (barAreaWidth / 2) + i * barAreaWidth
-      this.#context.fillText(xLabels[i], x, y)
-    }
+    this.#context.fillText(text, x, y)
   }
 
   #setChartAreaOrigin() {
