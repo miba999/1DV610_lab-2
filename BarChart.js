@@ -129,12 +129,21 @@ export default class BarChart {
   }
 
   #drawBars(data, color) {
-    const barSidePadding = 10
+    let barSidePadding = 10
     const numberOfDataPoints = data.length
     const maxValue = this.#getMaxValue(data)
     const barAreaWidth = this.#chartAreaWidth / numberOfDataPoints
     const scalingFactor = this.#chartAreaHeight / maxValue
-    const barWidth = barAreaWidth - barSidePadding * 2
+    let barWidth = barAreaWidth - barSidePadding * 2
+
+    // make space between bars bigger if there are few bars
+    if (barWidth - barSidePadding > 80) {
+      barSidePadding = 50
+      barWidth = barAreaWidth - barSidePadding * 2
+    } else {
+      barSidePadding = 10
+      barWidth = barAreaWidth - barSidePadding * 2
+    }
 
     // draw bar for every data point
     for (let i = 0; i < numberOfDataPoints; i++) {
@@ -147,12 +156,21 @@ export default class BarChart {
   }
 
   #drawBarsInRandomColors(data) {
-    const barSidePadding = 10
+    let barSidePadding = 10
     const numberOfDataPoints = data.length
     const maxValue = this.#getMaxValue(data)
     const barAreaWidth = this.#chartAreaWidth / numberOfDataPoints
     const scalingFactor = this.#chartAreaHeight / maxValue
-    const barWidth = barAreaWidth - barSidePadding * 2
+    let barWidth = barAreaWidth - barSidePadding * 2
+
+    // make space between bars bigger if there are few bars
+    if (barWidth - barSidePadding > 80) {
+      barSidePadding = 50
+      barWidth = barAreaWidth - barSidePadding * 2
+    } else {
+      barSidePadding = 10
+      barWidth = barAreaWidth - barSidePadding * 2
+    }
 
     // draw bar for every data point
     for (let i = 0; i < numberOfDataPoints; i++) {
