@@ -9,7 +9,7 @@ const data = [10, 30, 6, 2, 10]
 barchart.setHeight(450)
 barchart.setWidth(800)
 barchart.setTitle(title)
-barchart.drawXLabels(labels)
+barchart.setXLabels(labels)
 barchart.setData(data)
 
 // const barchart2 = new BarChart('canvas2');
