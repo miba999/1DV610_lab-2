@@ -166,28 +166,17 @@ The y-axis label should match the provided string.
 
 
 |**Test Number**|**Test Description**|**Status**|
-|---|---|---|
-|1|Initialize BarChart|Passed|
-|2|Add data points|Passed|
-|3|Set Categories|Passed|
-|4|Set Random Colors|Passed|
-|5|Set Color|Passed|
-|6|Change Height|Passed|
-|7|Change Width|Passed|
-|8|Set Title|Passed|
-|9|Set X-Axis Label|Passed|
-|10|Set Y-Axis Label|Passed|
-
-
-
-
-
-
-
-
-
-
-
+|---|---|:---:|
+|1|Initialize BarChart|✅|
+|2|Add data points|✅|
+|3|Set Categories|✅|
+|4|Set Random Colors|✅|
+|5|Set Color|✅|
+|6|Change Height|✅|
+|7|Change Width|✅|
+|8|Set Title|✅|
+|9|Set X-Axis Label|✅|
+|10|Set Y-Axis Label|✅|
 
 
 All tests have passed successfully.
