@@ -1,6 +1,23 @@
 # Test Report
 A test report of manual tests for the barcharty module.
 
+## Manual Test Results
+
+|**Test Number**|**Test Description**|**Status**|
+|---|---|:---:|
+|1|Initialize BarChart|✅|
+|2|Add data points|✅|
+|3|Set Categories|✅|
+|4|Set Random Colors|✅|
+|5|Set Color|✅|
+|6|Change Height|✅|
+|7|Change Width|✅|
+|8|Set Title|✅|
+|9|Set X-Axis Label|✅|
+|10|Set Y-Axis Label|✅|
+
+All tests have passed successfully.
+
 ## Tests for barchary module
 
 ### Test 1: Initialize BarChart
@@ -34,7 +51,7 @@ const barchart = new BarChart('canvas');
 
 9. Check that the instance was created without errors.
 
-#### Epected Result: 
+#### Expected Result: 
 No errors should occur, the `barchart` variable should be an instance of the BarChart class. An empty chart should be shown. 
 ![Test 1](.images/../images/test-report_test-1.png)
 
@@ -46,7 +63,7 @@ barchart.setData([11, 28, 4, 13]);
 
 2. Check that the data points are correctly set in the BarChart instance and that bars have been correctly added to the chart.
 
-#### Epected Result: 
+#### Expected Result: 
 The data points in the provided array should match the the bars in the chart and BarChart instance.
 
 ![Test 2](.images/../images/test-report_test-2.png)
@@ -60,7 +77,7 @@ barchart.setCategories(['Spring', 'Summer', 'Autumn', 'Winter']);
 
 2. Check that the categories are set on the x axis in the chart and for the BarChart instance. 
 
-#### Epected Result: 
+#### Expected Result: 
 The categories in the chart matches the provided array.
 
 ![Test 3](.images/../images/test-report_test-3.png)
@@ -72,7 +89,7 @@ barchart.setRandomColors();
 ```
 
 2. Check that the bars have (probably) different colors. 
-#### Epected Result: 
+#### Expected Result: 
 The color of the bars in the bar chart have (probably) different colors.
 
 ![Test 4](.images/../images/test-report_test-4.png)
@@ -85,7 +102,7 @@ barchart.setColor('rgba(10, 50, 200, 0.6)');
 
 2. Check that the bars in the chart are blue. 
 
-#### Epected Result:
+#### Expected Result: 
 The colors of the bars should match the provided color.
 
 ![Test 5](.images/../images/test-report_test-5.png) 
@@ -99,7 +116,7 @@ barchart.setHeight(500);
 
 2. Check if the height of the bar chart is updated.
 
-#### Epected Result: 
+#### Expected Result: 
 The bar chart height should match the provided height value.
 
 ![Test 6](.images/../images/test-report_test-6.png)
@@ -114,7 +131,7 @@ barchart.setWidth(400);
 2. Check if the width of the bar chart is updated. 
 3. Check the width of the bars. The spacing between the bars has reached a breakpoint and should have been decreased, making the bars fill out more space. 
 
-#### Epected Result: 
+#### Expected Result: 
 The bar chart width should match the provided width value. The spacing between the bars, and also the width of the bars, should also have been updated.
 
 ![Test 7](.images/../images/test-report_test-7.png)
@@ -127,7 +144,7 @@ barchart.setTitle('Favorite season');
 ```
 2. Check if the title is correctly set in the bar chart.
 
-#### Epected Result: 
+#### Expected Result: 
 The title of the bar chart should match the provided string.
 
 ![Test 8](.images/../images/test-report_test-8.png)
@@ -140,7 +157,7 @@ barchart.setXAxisLabel('Seasons');
 ```
 2. Check if the x-axis label is correctly set in the bar chart.
 
-#### Epected Result: 
+#### Expected Result: 
 The x-axis label should match the provided string
 
 ![Test 9](.images/../images/test-report_test-9.png)
@@ -155,29 +172,12 @@ barchart.setYAxisLabel('Number of votes');
 2. Check if the label for the y-axis is correctly set in the bar chart.
 
 
-#### Epected Result: 
+#### Expected Result: 
 The y-axis label should match the provided string. 
 
 ![Test 10](.images/../images/test-report_test-10.png)
 
 
 
-## Manual Test Results
 
-
-|**Test Number**|**Test Description**|**Status**|
-|---|---|:---:|
-|1|Initialize BarChart|✅|
-|2|Add data points|✅|
-|3|Set Categories|✅|
-|4|Set Random Colors|✅|
-|5|Set Color|✅|
-|6|Change Height|✅|
-|7|Change Width|✅|
-|8|Set Title|✅|
-|9|Set X-Axis Label|✅|
-|10|Set Y-Axis Label|✅|
-
-
-All tests have passed successfully.
 
