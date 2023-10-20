@@ -36,30 +36,30 @@ Många av reglerna/rubrikerna i kapitel 2 kan tyckas  lite självklara ibland, t
 
 |Metodnamn|Antal rader|Reflektion|
 |:---------------------------------------|:--|---|
-|`setCategories(xLabels: Array<string>)` |6  | This method refers to a data set of categories    |
-|                                        |   |   |
-|                                        |   |   |
-|                                        |   |   |
-|                                        |   |   |
-|`setColor(color: string)`               |2  |   |
-|                                        |   |   |
-|                                        |   |   |
-|                                        |   |   |
-|                                        |   |   |
-|`setHeight(newHeight: number)`          |2  |   |
-|                                        |   |   |
-|                                        |   |   |
-|`setTitle(title: string)`               |3  |   |
-|                                        |   |   |
-|                                        |   |   |
-|                                        |   |   |
-|                                        |   |   |
-|`setXAxisLabel(label: string)`          |3  |   |
-|                                        |   |   |
-|                                        |   |   |
-|                                        |   |   |
-|                                        |   |   |
-
-
+|`setCategories(xLabels: Array<string>)` |6  | Metodens namn hade kunnat utformats för att tydligare förklara vad metoden gör, t.ex. `setXAxisCategories` (**Use Descriptive Names** CC p. 39), och inte bara `setCategories`. |
+|                                        |   | Just nu sätter metoden både "data" (i form av x-axelns kategorier) OCH etiketter för x-axeln i stapeldiagrammet. En förbättring hade varit att separera data-tilldelning från diagram-utseende (**Do One Thing** CC p. 35). |
+|                                        |   | På grund av punkten ovan, beroende på vad man förväntar sig att metoden `setCategories` ska göra, så kan metoden kunna ha oväntade följder, vilket inte heller är optimalt (**Have No Side Effects** CC p. 44). |
+|`setColor(color: string)`               |2  | Metoden är inte helt tydlig med vad för färg det är som sätts (**Use Descriptive Names** CC p. 39), så den hade nog uppdateras till `setBarColor(color)` för att tydligare visa vad den färgsätter. |
+|                                        |   | Metoden sätter/uppdaterar färgen på staplarna, inget mer (**Command Query Separation** CC p. 45) |
+|                                        |   | Det är en mycket liten metod på två rader, den uppdaterar en variabel och anropar en annan metod för att rita om grafen med den nya färgen (**Small!** CC p. 31).  |
+|`setHeight(newHeight: number)`          |2  | Med bara två rader kod är det en väldigt liten metod (**Small!** CC p. 31). |
+|                                        |   | Utan några argument i metoden hade det varit svårt att ändra diagrammets höjd, så metoden har så få argument som det någonsin går, men tyvärr inte noll i detta fallet (**Function Arguments - monadic** CC p. 40).  |
+|                                        |   | Metoden har gör bara en sak, uppdaterar diagrammets höjd (**Do One Thing** CC p. 35)  |
+|`setTitle(title: string)`               |3  | För att uppdatera titeln krävs en sträng som argument, positionen av titeln kan inte bestämmas, vilket minskade antalet argument från 3 till 1 (**Function Arguments** CC p. 40). |
+|                                        |   | Namnet är kort, och gör som det låter, sätter en titel (**Use Descriptive Names** CC p. 39). Tanken var att det inte var så många oklarheter i kontexten av ett diagram vad det kan vara för titel, och att namnet var tillräckligt förklarande. |
+|`setXAxisLabel(label: string)`          |3  | Här togs också valet bort att kunna exakt specificera var etiketten för x-axeln skulle sitta, och lämnar bara ett argument för att specificera texten för etiketten (**Function Arguments** CC p. 40). |
+|                                        |   | Två av metodens tre rader betstår av bestämma/"räkna ut" koordinaterna för textens placering, tredje raden anropar sedan metod för själva utritandet av metoden. För att hålla samma abstraktionsnivå (**One Level of Abstraction per Function** CC p. 36) hade t.ex. uträkning av position kunnat ske i en privat metod, så hade `setXAxisLabel` inte varierat med uträkningar tillsammans med metod-anrop, utan bara metodanrop, och då varit mer på samma abstraktionsnivå. |
 
 ### Reflektion över Kapitel 3
+
+Som nämnt i tabellen så hade abstraktionsnivån kunnat göras "högre" och/eller konsekvent i de flesta av de publika metoderna (**One Level of Abstraction per Function** CC p. 36). T.ex. så blandas "uträkningar" (starkt ord, men rent konceptuellt) med metodanrop. Istället hade även uträkningar kunnat faktoreras ut i en privat metod som sedan använts i den publika metoden. Eftersom det inte fanns oändligt med tid, och det ändå var kod som var för specifik för att återanvändas, utan den faktoreringen mest varit för att fixa abstraktionsnivån, så var det inte högsta prioritering.
+
+I efterhand och utanför kod-bubblan så kom insikten att flera metod-namn kunnat göras lite tydligare (**Use Descriptive Names** CC p. 39) till bekostnad av längd. 
+
+Felhantering saknas, därför är vissa Clean Code-rubriker inte applicerbara (**Prefer Exceptions to Returning Error Codes** CC p. 46). Kommentarer till metoderna hjälper förhoppningsvis till lite för att det inte ska bli helt tokigt, men avsaknad av felhantering är inte optimalt. 
+
+Flera av rubrikerna blir lite upprepning i tabellen eftersom jag tyckte att metoderna ändå följde vissa av dem rätt bra, t.ex. de är rätt små och inte så många rader då mycket av själva utritandet är i private metoder (**Small!** CC p. 31). De är inte heller så komplicerade i form av kontroll-satser osv (vilket gör att stycket om t.ex. **Switch Statements** CC p. 37 inte heller är applicerbart). 
+
+Många av metoderna handlar om att rita ut etiketter, rubriker, mm. Här har valet av exakta placeringen tagits bort för att minska ner beslutsångest och hålla beslut på minimal nivå. Det hade blivit betydligt rörigare om man lagt till två argument (x- och y-koordinater) för varje metod för användaren att kunna själv exakt placera ut etiketter, rubriker, mmm, i diagrammet. Detta beslut togs dock för att minska beslut för användaren och inte för att boken starkt ej rekommenderade stort antal argument. Då hade t.ex. att göra koordinaterna till en egen `Position`-klass och då kunnat ha ett objekt som argument (**Function Arguments** - Argument Objects CC p. 43).
+
+
