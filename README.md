@@ -1,5 +1,5 @@
 # 1DV610 Laboration 2
-This is a test app using the module barcharty [barcharty](https://github.com/miba999/barcharty) for createing a bar chart. It is part of the course 1DV610 Introduction to Software Quality at LNU.
+This is a test app using the module [barcharty](https://github.com/miba999/barcharty) for creating a bar chart. It is part of the course 1DV610 Introduction to Software Quality at LNU.
 
 ## Run test app
 Clone repository: 
