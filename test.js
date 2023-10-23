@@ -1,18 +1,14 @@
-import BarChart from './BarChart.js'
+import BarChart from './BarChart.js';
 
 const barchart = new BarChart('canvas');
-const title = 'Favorite season'
-const xLabel = 'Seasons'
-const yLabel = 'Number of votes'
-const categories = ['Spring', 'Summer', 'Autumn', 'Winter']
-const data = [11, 28, 4, 13]
-barchart.setHeight(400)
-barchart.setWidth(500)
-barchart.setTitle(title)
-barchart.setXAxisLabel(xLabel)
-barchart.setYAxisLabel(yLabel)
-barchart.setData(data)
-barchart.setCategories(categories)
+barchart.setData([11, 28, 4, 13]);
+barchart.setCategories(['Spring', 'Summer', 'Autumn', 'Winter'])
+barchart.setColor('rgba(10, 50, 200, 0.6)');
+barchart.setHeight(500);
+barchart.setWidth(400);
+barchart.setTitle('Favorite season');
+barchart.setXAxisLabel('Seasons');
+barchart.setYAxisLabel('Number of votes');
 
 const barchart2 = new BarChart('canvas2');
 const title2 = 'Favorite color'
