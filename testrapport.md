@@ -1,5 +1,5 @@
 # Test Report
-A test report of manual tests for the barcharty module.
+A test report of the 10 manual tests for the barcharty module.
 
 ## Manual Test Results
 
