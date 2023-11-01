@@ -1,11 +1,11 @@
 import BarChart from './BarChart.js';
 
 const barchart = new BarChart('canvas');
-barchart.setData([11, 28, 4, 13]);
-barchart.setCategories(['Spring', 'Summer', 'Autumn', 'Winter'])
+barchart.setData([11, 28, 4, 13, 23]);
+barchart.setCategories(['Spring', 'Summer', 'Autumn', 'Winter', 'Other'])
 barchart.setColor('rgba(10, 50, 200, 0.6)');
 barchart.setHeight(500);
-barchart.setWidth(400);
+barchart.setWidth(800);
 barchart.setTitle('Favorite season');
 barchart.setXAxisLabel('Seasons');
 barchart.setYAxisLabel('Number of votes');
